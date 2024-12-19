@@ -26,6 +26,7 @@ A Python script to change the MAC address of a specified network interface. This
    Replace `<interface>` with the network interface (e.g., `eth0`, `wlan0`) and `<new_mac>` with the desired MAC address (e.g., `00:11:22:33:44:55`).
 
 2. Example:
+   ```bash
    sudo python3 mac_changer.py -i wlan0 -m 00:11:22:33:44:55
 
 ## Options
@@ -33,6 +34,7 @@ A Python script to change the MAC address of a specified network interface. This
 - `-m` or `--mac`: Specify the new MAC address.
 
 ## Example Output
+```bash
 Current MAC of wlan0 interface is 12:34:56:78:9a:bc
 [+] Changing MAC address for wlan0 to 00:11:22:33:44:55 ...
 [+] MAC has been changed successfully from 12:34:56:78:9a:bc to 00:11:22:33:44:55
