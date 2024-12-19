@@ -1,9 +1,7 @@
 #!/usr/bin/env
 import subprocess
-import optparse
-
-
-# optparse is used to take cmd line arguments from user and parse them.
+import optparse # optparse is used to take cmd line arguments from user and parse them.
+import re # for reqular expressions
 
 def get_arguments():
     parser = optparse.OptionParser()
@@ -20,8 +18,13 @@ def execute_shell_cmd(cmd):
     subprocess.call(cmd, shell=False)
 
 
-def read_cmd_output(cmd):
-    return subprocess.check_output(cmd)
+def get_mac(interface):
+    ifconfig_result = subprocess.check_output(["ifconfig",interface])
+    mac_search_result = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", str(ifconfig_result)) #r for regex rule and rule will be placed inside the double quotes.
+    if mac_search_result:
+        return mac_search_result.group[0]
+    else:
+        print("[-] Could not get MAC for " + interface + " interface.")
 
 
 def change_mac(interface, new_mac):
@@ -35,4 +38,11 @@ def change_mac(interface, new_mac):
 
 
 options = get_arguments()
+current_mac = get_mac(options.interface)
+print("Current MAC of " + options.interface + " interface is " + str(current_mac))
 change_mac(interface=options.interface, new_mac=options.new_mac)
+changed_mac = get_mac(options.interface)
+if changed_mac == options.new_mac:
+    print("[+] MAC has been changed successfully from " + str(current_mac) + " to " + str(changed_mac))
+else:
+    print("[-] Unable to change MAC.")
